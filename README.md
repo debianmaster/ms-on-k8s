@@ -18,3 +18,7 @@ mvn fabric8:debug
 ext install vscode-java-debug
 oc policy add-role-to-user edit system:serviceaccount:bi-qa:jenkins -n bi-dev
 ```
+
+```
+open https://github.com/debianmaster/nodejs-welcome/blob/ci-cd/devpipeline.yaml
+
