@@ -1,0 +1,28 @@
+--- 
+apiVersion: config.istio.io/v1alpha2
+kind: EndUserAuthenticationPolicySpec
+metadata: 
+  name: coolstore-api-auth-policy
+  namespace: store
+spec: 
+  jwts: 
+    - issuer: http://keycloak.infra:8080/auth/realms/coolstore
+      jwks_uri: http://keycloak.infra:8080/auth/realms/coolstore/protocol/openid-connect/certs
+      audiences: 
+      - store 
+
+
+
+--- 
+apiVersion: config.istio.io/v1alpha2
+kind: EndUserAuthenticationPolicySpecBinding
+metadata:
+  name: coolstore-api-auth-policy-binding
+  namespace: store
+spec:
+  policies:
+    - name: coolstore-api-auth-policy
+      namespace: store
+  services:
+    - name: products
+      namespace: store
