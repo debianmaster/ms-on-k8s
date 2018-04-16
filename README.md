@@ -4,7 +4,7 @@ open http://store-store.mk.ck.osecloud.com
 open https://studio.apicur.io
 
 rm -rf ~/reccomendations-api
-swagger-codegen generate -i ~/Downloads/reccomendations.yml -l spring ~/reccomendations-api -c ~/swagger-config.json
+swagger-codegen generate -i ~/Downloads/reccomendations.yml -l spring ~/reccomendations-api --artifact-id recommendations -c ~/swagger-config.json
 
 cd reccomendations-api
 mvn io.fabric8:fabric8-maven-plugin:LATEST:setup
