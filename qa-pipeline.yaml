@@ -21,7 +21,7 @@ spec:
             sh 'echo "testing"'
           stage 'Promote to Prod'
             input 'Proceeed ?'
-            sh 'oc tag bi-qa/welcome:latest bi-qa/welcome:promoteToQA'
+            sh 'oc tag bi-qa/recommendations:latest bi-qa/recommendations:promoteToQA'
         }
   output:
   resources:
