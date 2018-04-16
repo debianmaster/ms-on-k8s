@@ -14,7 +14,7 @@ spec:
       jenkinsfile: |-
         node('') {
           stage 'Build'
-            openshiftBuild(namespace:'bi-dev',buildConfig: 'reccomendations', showBuildLogs: 'true')
+            openshiftBuild(namespace:'bi-dev',buildConfig: 'reccomendations-s2i', showBuildLogs: 'true')
           stage 'Deploy'
             openshiftDeploy(namespace:'bi-dev',deploymentConfig: 'reccomendations')
           stage 'Test'
