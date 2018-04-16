@@ -7,6 +7,9 @@ rm -rf ~/reccomendations-api
 swagger-codegen generate -i ~/Downloads/reccomendations.yml -l spring ~/reccomendations-api --artifact-id recommendations -c ~/swagger-config.json
 
 cd reccomendations-api
+mvn clean package
+mvn spring-boot:run
+
 mvn io.fabric8:fabric8-maven-plugin:LATEST:setup
 tail -n 30 pom.xml
 mvn fabric8:deploy
