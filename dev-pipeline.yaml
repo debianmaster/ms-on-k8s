@@ -13,15 +13,15 @@ spec:
     jenkinsPipelineStrategy:
       jenkinsfile: |-
         node('') {
-          stage 'Build'
-            openshiftBuild(namespace:'bi-dev',buildConfig: 'reccomendations-s2i', showBuildLogs: 'true')
+          //stage 'Build'
+            //openshiftBuild(namespace:'bi-dev',buildConfig: 'recommendations-s2i', showBuildLogs: 'true')
           stage 'Deploy'
-            openshiftDeploy(namespace:'bi-dev',deploymentConfig: 'reccomendations')
+            openshiftDeploy(namespace:'bi-dev',deploymentConfig: 'recommendations')
           stage 'Test'
             sh 'echo "testing"'
           stage 'Promote to QA'
             input 'Proceeed ?'
-            sh 'oc tag bi-dev/reccomendations:latest bi-dev/reccomendations:promoteToQA'
+            sh 'oc tag bi-dev/recommendations:1.0.0 bi-dev/recommendations:promoteToQA'
         }
   output:
   resources:
