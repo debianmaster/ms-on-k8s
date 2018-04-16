@@ -14,14 +14,14 @@ spec:
       jenkinsfile: |-
         node('') {
           stage 'Copy from DEV'
-            sh 'oc tag bi-dev/recommendations:latest bi-qa/recommendations:promoteToQA'
+            sh 'oc tag bi-dev/recommendations:promoteToQA bi-qa/recommendations:promoteToQA'
           stage 'Deploy to QA'
-            openshiftDeploy(namespace:'bi-qa',deploymentConfig: 'recommendations')
+            sh 'oc new-app bi-qa/recommendations:promoteToQA --name=recommendations --dry-run -o yaml | oc apply -f-'
           stage 'Test'
             sh 'echo "testing"'
           stage 'Promote to Prod'
             input 'Proceeed ?'
-            sh 'oc tag bi-qa/recommendations:latest bi-qa/recommendations:promoteToQA'
+            sh 'oc tag bi-qa/recommendations:promoteToQA bi-qa/recommendations:promoteToProd'
         }
   output:
   resources:
