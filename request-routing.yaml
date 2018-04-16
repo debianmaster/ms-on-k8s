@@ -1,0 +1,51 @@
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: products-default
+  namespace: store
+spec:
+  destination:
+    name: products
+  precedence: 1
+  route:
+  - labels:
+      version: v1
+    weight: 100
+    
+---
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: products-recommendation-canary
+  namespace: store
+spec:
+  destination:
+    name: products
+  precedence: 1
+  route:
+  - labels:
+      version: v1
+    weight: 50
+  - labels:
+      version: recommendations
+    weight: 50
+---
+
+apiVersion: config.istio.io/v1alpha2
+kind: RouteRule
+metadata:
+  name: test-recommendations-for-user-jason
+spec:
+  match:
+    request:
+      headers:
+        cookie:
+          regex: ^(.*?;)?(user=jason)(;.*)?$
+  destination:
+    name: products
+    namespace: store
+  precedence: 2
+  route:
+  - labels:
+      version: recommendations
