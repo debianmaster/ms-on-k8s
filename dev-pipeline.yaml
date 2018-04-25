@@ -12,11 +12,14 @@ spec:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
       jenkinsfile: |-
-        node('') {
-          //stage 'Build'
-            //openshiftBuild(namespace:'bi-dev',buildConfig: 'recommendations-s2i', showBuildLogs: 'true')
-          stage 'Deploy'
-            openshiftDeploy(namespace:'bi-dev',deploymentConfig: 'recommendations')
+        node('maven') {
+          stage('Build'){
+            checkout scm
+            sh "mvn fabric8:build"
+          }  
+          stage('Deploy'){
+            sh "mvn fabric8:deploy"
+          }  
           stage 'Test'
             sh 'echo "testing"'
           stage 'Promote to QA'
