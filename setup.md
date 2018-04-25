@@ -4,6 +4,8 @@ istioctl kube-inject -f <(oc new-app debianmaster/store-fe --name=store -l app=s
 istioctl kube-inject -f <(oc new-app debianmaster/store-products:v1 --name=products -l app=products,version=v1 --dry-run -o yaml) | oc apply -f-
 
 
+
+
 oc new-app mongodb -l app=mongodb --name=productsdb \
   -e MONGODB_ADMIN_PASSWORD=password  -e MONGODB_USER=app_user \
   -e MONGODB_DATABASE=store  -e MONGODB_PASSWORD=password
@@ -28,5 +30,14 @@ var products=[ {product_id:'cable_1',name:"Wire",title:"Wire",img:'img/storeImag
 db.Categories.insert(categories)
 
 db.Products.insert(products)
+
+oc delete svc products 
+oc create service clusterip products --tcp=8080:8080
+
+
+istioctl kube-inject -f <(oc new-app debianmaster/store-recommendations:v1 --name=recommendations -l app=recommendations,version=v1 --dry-run -o yaml -n bi) | oc apply -n bi -f-
+
+oc env dc products MONGO_USER=app_user MONGO_PASSWORD=password MONGO_SERVER=productsdb MONGO_PORT=27017 MONGO_DB=store \
+mongo_url='mongodb://app_user:password@productsdb/store'
 
 ```
