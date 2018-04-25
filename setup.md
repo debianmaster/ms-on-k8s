@@ -40,4 +40,10 @@ istioctl kube-inject -f <(oc new-app debianmaster/store-recommendations:v1 --nam
 oc env dc products MONGO_USER=app_user MONGO_PASSWORD=password MONGO_SERVER=productsdb MONGO_PORT=27017 MONGO_DB=store \
 mongo_url='mongodb://app_user:password@productsdb/store'
 
+
+  593  oc new-project infra
+  594  kubectl apply -f <(istioctl kube-inject -f <(kubectl apply -f http://central.maven.org/maven2/io/fabric8/devops/apps/keycloak/2.2.327/keycloak-2.2.327-kubernetes.yml --dry-run -o yaml))
+  595  oc create service clusterip products --tcp=8080:8080
+  596  oc expose deploy keycloak --port=8080
+
 ```
